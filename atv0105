@@ -1,0 +1,168 @@
+1- const mysql = require('mysql2');
+
+    const connection = mysql.createConnection({
+      host: 'localhost',
+      user: 'phpmyadmin',
+      password: 'aluno',
+      database: 'Carros'
+    });
+
+    connection.connect();
+
+    const queryString = 'SELECT * FROM Carros WHERE COR = "VERDE"';
+
+    connection.query(queryString, (error, results, fields) => {
+      if (error) throw error;
+      console.log('Resultado da consulta:');
+      console.log(results);
+    });
+
+    connection.end();
+
+2-  const mysql = require('mysql2');
+
+    const connection = mysql.createConnection({
+      host: 'localhost',
+      user: 'phpmyadmin',
+      password: 'aluno',
+      database: 'Carros'
+    });
+
+    connection.connect();
+
+    const queryString = 'SELECT * FROM LOCAÇÕES WHERE CODCARRO = "3"';
+
+    connection.query(queryString, (error, results, fields) => {
+      if (error) throw error;
+      console.log('Resultado da consulta:');
+      console.log(results);
+    });
+
+    connection.end();
+
+3-const mysql = require('mysql2');
+
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'phpmyadmin',
+  password: 'aluno',
+  database: 'Carros'
+});
+
+connection.connect();
+
+const queryString = `
+CREATE PROCEDURE sp_gasalcoll()
+BEGIN
+    SELECT LOCAÇÕES.CÓDIGO AS ID_Locacao,
+           Carros.NOME_CARRO AS Modelo_Carro,
+           Carros.COMBUSTÍVEL AS Tipo_Combustivel,
+           CLIENTES.NOME_CLIENTE AS Nome_Cliente,
+           CLIENTES.TELEFONE AS Telefone_Cliente
+    FROM LOCAÇÕES
+    JOIN Carros ON LOCAÇÕES.CODCARRO = CARROS.CÓDIGO
+    JOIN CLIENTES ON LOCAÇÕES.CODCLIENTE = CLIENTES.CÓDIGO
+    WHERE Carros.COMBUSTÍVEL IN ('GASOLINA', 'ÁLCCOL');
+END
+`;
+
+connection.query(queryString, (error, results, fields) => {
+  if (error) throw error;
+  console.log('Stored procedure criada com sucesso!');
+});
+
+connection.end();
+
+4-const mysql = require('mysql2');
+
+    const connection = mysql.createConnection({
+      host: 'localhost',
+      user: 'phpmyadmin',
+      password: 'aluno',
+      database: 'Carros'
+    });
+
+    connection.connect();
+
+    const queryString = 'SELECT * FROM Carros WHERE ESTÁ_DISPONIVEL = "SIM"';
+
+    connection.query(queryString, (error, results, fields) => {
+      if (error) throw error;
+      console.log('Resultado da consulta:');
+      console.log(results);
+    });
+
+    connection.end();
+
+5-  const mysql = require('mysql2');
+
+    const connection = mysql.createConnection({
+      host: 'localhost',
+      user: 'phpmyadmin',
+      password: 'aluno',
+      database: 'Carros'
+    });
+
+    connection.connect();
+
+    const queryString = `
+CREATE PROCEDURE executeExercises()
+BEGIN
+   -- Exercício 2
+  SELECT c.*, cl.NOME_CLIENTE, cl.TELEFONE
+  FROM LOCAÇÕES l
+  JOIN Carros c ON l.CODCARRO = c.CÓDIGO
+  JOIN CLIENTES cl ON l.CODCLIENTE = cl.CÓDIGO
+  WHERE c.COMBUSTÍVEL IN ('GASOLINA', 'ETANOL');
+
+  -- Exercício 3
+  SELECT l.*, cl.NOME_CLIENTE, cl.TELEFONE
+  FROM LOCAÇÕES l
+  JOIN CLIENTES cl ON l.CODCLIENTE = cl.CÓDIGO
+  JOIN CARROS c ON l.CODCARRO = c.CÓDIGO
+  WHERE c.COMBUSTÍVEL IN ('GASOLINA', 'ETANOL');
+
+  -- Exercício 4
+  SELECT *
+  FROM CARROS
+  WHERE ESTÁ_DISPONIVEL = 'SIM'
+    AND CÓDIGO NOT IN (
+      SELECT CODCARRO
+      FROM LOCAÇÕES
+    );
+
+  -- Exercício 6
+  SELECT c.*, cl.NOME_CLIENTE, cl.TELEFONE
+  FROM LOCAÇÕES l
+  JOIN Carros c ON l.CODCARRO = c.CÓDIGO
+  JOIN CLIENTES cl ON l.CODCLIENTE = cl.CÓDIGO
+  WHERE l.DATA_LOC = CURDATE();
+END;
+`;
+
+    connection.query(queryString, (error, results, fields) => {
+      if (error) throw error;
+      console.log('Resultado da consulta:');
+      console.log(results);
+    });
+
+    connection.end
+
+6- const mysql = require('mysql2');
+
+// Configuração da conexão com o banco de dados
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'phpmyadmin',
+  password: 'aluno',
+  database: 'Carros'
+});
+connection.query(`CREATE PROCEDURE SP_AdicionarCliente(IN nomeCliente VARCHAR(50), IN telefone VARCHAR(50), IN sexo VARCHAR(15), IN idade INT)
+                  BEGIN
+                    INSERT INTO CLIENTES (NOME_CLIENTE, TELEFONE, SEXO, IDADE) VALUES (nomeCliente, telefone, sexo, idade);
+                  END`, (error) => {
+  if (error) throw error;
+  console.log('Stored Procedure SP_AdicionarCliente criada com sucesso!');
+});
+
+
